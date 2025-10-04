@@ -1,5 +1,6 @@
 import { Rocket, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
@@ -10,25 +11,27 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <Rocket className="w-8 h-8 text-primary" />
             <span className="text-xl font-bold text-glow">Cosmic Explorer</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors">
+            <a href="/#home" className="text-foreground hover:text-primary transition-colors">
               Home
             </a>
-            <a href="#planets" className="text-foreground hover:text-primary transition-colors">
+            <a href="/#planets" className="text-foreground hover:text-primary transition-colors">
               Planets
             </a>
-            <a href="#data" className="text-foreground hover:text-primary transition-colors">
+            <a href="/#data" className="text-foreground hover:text-primary transition-colors">
               Space Data
             </a>
-            <Button variant="default" className="bg-primary hover:bg-primary/90">
-              Explore Now
-            </Button>
+            <Link to="/habitat-designer">
+              <Button variant="default" className="bg-primary hover:bg-primary/90">
+                Habitat Designer
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -44,29 +47,31 @@ const Navigation = () => {
         {isOpen && (
           <div className="md:hidden py-4 space-y-4">
             <a
-              href="#home"
+              href="/#home"
               className="block text-foreground hover:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Home
             </a>
             <a
-              href="#planets"
+              href="/#planets"
               className="block text-foreground hover:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Planets
             </a>
             <a
-              href="#data"
+              href="/#data"
               className="block text-foreground hover:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Space Data
             </a>
-            <Button variant="default" className="w-full bg-primary hover:bg-primary/90">
-              Explore Now
-            </Button>
+            <Link to="/habitat-designer" onClick={() => setIsOpen(false)}>
+              <Button variant="default" className="w-full bg-primary hover:bg-primary/90">
+                Habitat Designer
+              </Button>
+            </Link>
           </div>
         )}
       </div>

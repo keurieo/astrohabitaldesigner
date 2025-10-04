@@ -1,0 +1,4 @@
+project_id = "kdnofavadiippxcmagez"
+
+[functions.habitat-designer]
+verify_jwt = false
