@@ -17,7 +17,7 @@ interface DesignCanvasProps {
 }
 
 const GRID_SIZE = 12;
-const CELL_SIZE = 60;
+const CELL_SIZE = 50; // Reduced for better responsiveness
 
 const DesignCanvas = ({ placedModules, onPlaceModule, onRemoveModule }: DesignCanvasProps) => {
   const [hoveredCell, setHoveredCell] = useState<{ x: number; y: number } | null>(null);
@@ -66,19 +66,22 @@ const DesignCanvas = ({ placedModules, onPlaceModule, onRemoveModule }: DesignCa
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <div
-            ref={dropRef}
-            className={`relative border-2 ${isOver ? "border-primary" : "border-border"} rounded-lg overflow-hidden`}
-            style={{
-              width: GRID_SIZE * CELL_SIZE,
-              height: GRID_SIZE * CELL_SIZE,
-              backgroundImage: `
-                linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
-                linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
-              `,
-              backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`
-            }}
-          >
+          <div className="overflow-x-auto">
+            <div
+              ref={dropRef}
+              className={`relative border-2 ${isOver ? "border-primary shadow-[0_0_20px_rgba(125,95,255,0.5)]" : "border-border"} rounded-lg overflow-hidden mx-auto transition-all`}
+              style={{
+                width: GRID_SIZE * CELL_SIZE,
+                height: GRID_SIZE * CELL_SIZE,
+                maxWidth: "100%",
+                backgroundImage: `
+                  linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+                  linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
+                `,
+                backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`,
+                touchAction: "none"
+              }}
+            >
             {/* Render placed modules */}
             {placedModules.map((module) => (
               <div
@@ -118,10 +121,11 @@ const DesignCanvas = ({ placedModules, onPlaceModule, onRemoveModule }: DesignCa
                 }}
               />
             )}
+            </div>
           </div>
 
-          <div className="text-sm text-muted-foreground">
-            Drag modules from the palette onto the grid to design your habitat layout
+          <div className="text-sm text-muted-foreground text-center">
+            💡 Drag modules from the palette onto the grid to design your habitat layout
           </div>
         </div>
       </CardContent>

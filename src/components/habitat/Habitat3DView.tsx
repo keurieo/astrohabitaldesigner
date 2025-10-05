@@ -1,7 +1,8 @@
+import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stars, Text } from "@react-three/drei";
+import { OrbitControls, Stars } from "@react-three/drei";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Eye } from "lucide-react";
+import { Eye, Loader2 } from "lucide-react";
 
 interface Habitat3DViewProps {
   planet: string;
@@ -72,6 +73,15 @@ const PlanetSurface = ({ planet }: { planet: string }) => {
   );
 };
 
+const LoadingFallback = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <div className="text-center space-y-3">
+      <Loader2 className="w-8 h-8 text-primary animate-spin mx-auto" />
+      <p className="text-sm text-muted-foreground">Loading 3D View...</p>
+    </div>
+  </div>
+);
+
 const Habitat3DView = ({ planet, moduleCount }: Habitat3DViewProps) => {
   return (
     <Card className="bg-card border-border">
@@ -82,28 +92,42 @@ const Habitat3DView = ({ planet, moduleCount }: Habitat3DViewProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="w-full h-[400px] rounded-lg overflow-hidden bg-gradient-to-b from-background to-muted/20">
-          <Canvas camera={{ position: [8, 5, 8], fov: 50 }}>
-            <ambientLight intensity={0.3} />
-            <pointLight position={[10, 10, 10]} intensity={1} />
-            <pointLight position={[-10, -10, -10]} intensity={0.5} />
-            
-            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-            
-            <HabitatModel moduleCount={moduleCount} />
-            <PlanetSurface planet={planet} />
-            
-            <OrbitControls 
-              enableZoom={true} 
-              enablePan={true} 
-              enableRotate={true}
-              minDistance={5}
-              maxDistance={20}
-            />
-          </Canvas>
+        <div className="w-full h-[400px] rounded-lg overflow-hidden bg-gradient-to-b from-background to-muted/20 relative">
+          <Suspense fallback={<LoadingFallback />}>
+            <Canvas 
+              camera={{ position: [8, 5, 8], fov: 50 }}
+              gl={{ antialias: true, alpha: true }}
+              dpr={[1, 2]}
+            >
+              <ambientLight intensity={0.4} />
+              <pointLight position={[10, 10, 10]} intensity={1.2} />
+              <pointLight position={[-10, -10, -10]} intensity={0.6} />
+              <spotLight position={[0, 15, 0]} angle={0.3} penumbra={1} intensity={0.5} />
+              
+              {/* Reduced star count for better performance */}
+              <Stars radius={100} depth={50} count={2000} factor={3} saturation={0} fade speed={0.5} />
+              
+              <HabitatModel moduleCount={moduleCount} />
+              <PlanetSurface planet={planet} />
+              
+              <OrbitControls 
+                enableZoom={true} 
+                enablePan={true} 
+                enableRotate={true}
+                minDistance={5}
+                maxDistance={20}
+                dampingFactor={0.05}
+                rotateSpeed={0.5}
+                zoomSpeed={0.8}
+                panSpeed={0.5}
+                enableDamping={true}
+                makeDefault
+              />
+            </Canvas>
+          </Suspense>
         </div>
         <div className="text-sm text-muted-foreground text-center mt-4">
-          Click and drag to rotate • Scroll to zoom
+          🖱️ Click and drag to rotate • Scroll to zoom • Right-click to pan
         </div>
       </CardContent>
     </Card>

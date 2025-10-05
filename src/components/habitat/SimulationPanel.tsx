@@ -22,7 +22,7 @@ const SimulationPanel = ({ crewCount, moduleCount }: SimulationPanelProps) => {
 
   const startSimulation = () => {
     setIsRunning(true);
-    // Simulate time passing
+    // Simulate time passing - faster animation
     const interval = setInterval(() => {
       setSimTime(prev => {
         if (prev >= 365) {
@@ -30,17 +30,17 @@ const SimulationPanel = ({ crewCount, moduleCount }: SimulationPanelProps) => {
           setIsRunning(false);
           return 365;
         }
-        return prev + 1;
+        return prev + 2; // Faster progression
       });
 
       // Simulate metric changes
       setMetrics(prev => ({
-        sustainability: Math.max(60, prev.sustainability - Math.random() * 0.5),
-        crewMorale: Math.max(70, prev.crewMorale - Math.random() * 0.3),
-        systemHealth: Math.max(80, prev.systemHealth - Math.random() * 0.2),
-        resourceEfficiency: Math.max(75, prev.resourceEfficiency - Math.random() * 0.4)
+        sustainability: Math.max(60, prev.sustainability - Math.random() * 0.3),
+        crewMorale: Math.max(70, prev.crewMorale - Math.random() * 0.2),
+        systemHealth: Math.max(80, prev.systemHealth - Math.random() * 0.15),
+        resourceEfficiency: Math.max(75, prev.resourceEfficiency - Math.random() * 0.25)
       }));
-    }, 50);
+    }, 30); // Faster update rate
   };
 
   const pauseSimulation = () => {

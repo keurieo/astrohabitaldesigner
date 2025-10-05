@@ -110,14 +110,15 @@ const DraggableModule = ({ module }: { module: HabitatModule }) => {
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
-  }));
+  }), [module]);
 
   return (
     <div
       ref={drag}
-      className={`${module.color} border-2 rounded-lg p-3 cursor-move transition-all hover:scale-105 ${
-        isDragging ? "opacity-50" : "opacity-100"
+      className={`${module.color} border-2 rounded-lg p-3 cursor-move transition-all hover:scale-105 active:scale-95 ${
+        isDragging ? "opacity-50 scale-110" : "opacity-100"
       }`}
+      style={{ touchAction: "none" }}
     >
       <div className="text-center space-y-1">
         <div className="text-2xl">{module.icon}</div>
