@@ -79,6 +79,18 @@ All colors MUST be HSL.
     text-shadow: var(--glow-accent);
   }
 
+  .text-neon-blue {
+    text-shadow: 0 0 10px hsl(192 100% 50% / 0.8), 0 0 20px hsl(192 100% 50% / 0.5);
+  }
+
+  .text-neon-purple {
+    text-shadow: 0 0 10px hsl(256 74% 68% / 0.8), 0 0 20px hsl(256 74% 68% / 0.5);
+  }
+
+  .text-neon-teal {
+    text-shadow: 0 0 10px hsl(180 100% 50% / 0.8), 0 0 20px hsl(180 100% 50% / 0.5);
+  }
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -89,6 +101,12 @@ All colors MUST be HSL.
 
   .animate-star-twinkle {
     animation: twinkle 3s ease-in-out infinite;
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
 
